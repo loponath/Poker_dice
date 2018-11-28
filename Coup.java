@@ -247,6 +247,7 @@ public class Coup{
 		for(int i = 0 ; i<5000 ; i++){
 			gobelet = lancerGob(gobelet);
 			affichageCombinaison(gobelet,points(gobelet));
+			
 		}
 	}
 	

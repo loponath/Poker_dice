@@ -20,6 +20,11 @@ public class Coup{
 		boolean de5 ;
 	}
 	
+/** Afficher le contenu d'un gobelet */
+	public static void afficherGob(Gobelet gob){
+		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
+	}
+	
 	/** Lancer aléatoire d'un dé à FACES nombre de FACE */
 	public static int aleatoire(){
 		return((int)(Math.random()*FACES)+1);
@@ -39,7 +44,14 @@ public class Coup{
 		return(gob) ;
 	}
 	
-	/** Afficher le contenu d'un gobelet */
+	public static class Relance {
+		boolean estValide ;
+		boolean de1 ;
+		boolean de2 ;
+		boolean de3 ;
+		boolean de4 ;
+		boolean de5 ;
+	}/** Afficher le contenu d'un gobelet */
 	public static void afficherGob(Gobelet gob){
 		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
 	}
@@ -251,124 +263,7 @@ public class Coup{
 		Ecran.sautDeLigne();
 	}
 	
-	public static Relance estValideDe(int valeur){
-		
-		int de  = 0, i = 1, valeurSafe = valeur;
-		
-		Relance relance = new Relance();
-		relance.estValide = true;
-		
-		if(valeur < 0){
-			relance.estValide = false;
-			Ecran.afficherln("Attention votre saisie est invalide !");
-		}
-		
-		while(relance.estValide && valeur != 0){
-			
-			de = valeur % 10;
-			
-			if (de == 0 || de >= 6){
-				relance.estValide = false;
-				Ecran.afficherln("Vos dés doivent être compris entre 1 et 5 !");
-			}
-			
-			valeur = valeur / 10;
-			i++;
-			
-			if(i > 5){
-				relance.estValide = false;
-				
-				Ecran.afficherln("Vous ne pouvez pas modifier plus de cinq dés !");
-			}
-		}
-		
-		while(valeurSafe != 0 && relance.estValide){
-			
-			de = valeurSafe % 10;
-			
-			switch(de){
-			case 1 :
-				if(relance.de1){
-					relance.estValide = false;
-				} else {
-					relance.de1 =true ;
-				}
-				break;
-			case 2 :
-				if(relance.de2){
-					relance.estValide = false;
-				} else {
-					relance.de2 =true ;
-				}
-				break;
-			case 3 :
-				if(relance.de3){
-					relance.estValide = false;
-				} else {
-					relance.de3 =true ;
-				}
-				break;
-			case 4 :
-				if(relance.de4){
-					relance.estValide = false;
-				} else {
-					relance.de4 =true ;
-				}
-				break;
-			case 5 :
-				if(relance.de5){
-					relance.estValide = false;
-				} else {
-					relance.de5 =true ;
-				}
-				break;
-		
-			}
-			if(!(relance.estValide)){
-				Ecran.afficher("Vous avez entré deux fois le même dé. ");
-			}
-			valeurSafe = valeurSafe/10;
-		}
-		
-		return(relance);
-	}
-	
-	public static void relanceDe(Gobelet gob){
-		
-		int valeur = 0;
-		
-		Ecran.afficherln("Quel dé voulez vous relancez ?");
-		valeur = Clavier.saisirInt();
-		
-		Relance relance = new Relance();
-		relance = estValideDe(valeur);
-		
-		while(!(relance.estValide)){
-			Ecran.afficherln("Quel dé voulez vous relancez ?");
-			valeur = Clavier.saisirInt();
-			relance = estValideDe(valeur);
-		}
-		
-		afficherRelance(relance);
-		
-		if(relance.de1){
-			gob.de1 = aleatoire();
-		}
-		if(relance.de2){
-			gob.de2 = aleatoire();
-		}
-		if(relance.de3){
-			gob.de3 = aleatoire();
-		}
-		if(relance.de4){
-			gob.de4 = aleatoire();
-		}
-		if(relance.de5){
-			gob.de5 = aleatoire();
-		}
 
-	}
-	
 	
 	/** Un coup */
 	public static void main(String args[]) {

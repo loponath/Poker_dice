@@ -313,12 +313,15 @@ public class AA_PokerAsV1 {
 	
 	 
 	/* Fonction coup qui joue un coup avec les relances */
-	public static int coup(int tourJoueur, Joueur j1, Joueur j2) {
+	public static void coup(int tourJoueur, Joueur j1, Joueur j2) {
 		
 		Gobelet gobJ1 = new Gobelet();
 		int pointsJ1;
 		Gobelet gobJ2 = new Gobelet();
 		int pointsJ2;
+		
+		int gagnant = 0;
+		
 		
 		//Premier tour
 		for(int i=0 ; i <2 ; i++){
@@ -326,12 +329,12 @@ public class AA_PokerAsV1 {
 				Ecran.afficherln(j1.nom,", c'est votre tour.");
 				gobJ1 = lancerGob();
 				affichageCombinaison(gobJ1);
-				
-				
+				Ecran.sautDeLigne();
 			} else {
 				Ecran.afficherln(j2.nom,", c'est votre tour.");
 				gobJ2 = lancerGob();
 				affichageCombinaison(gobJ2);
+				Ecran.sautDeLigne();
 			}
 			
 			//Changement de tour
@@ -348,14 +351,13 @@ public class AA_PokerAsV1 {
 				Ecran.afficherln(j1.nom,", c'est votre tour.");
 				gobJ1 = relanceGob(gobJ1);
 				affichageCombinaison(gobJ1);
-				
-				
+				Ecran.sautDeLigne();
 			} else {
 				Ecran.afficherln(j2.nom,", c'est votre tour.");
 				gobJ2 = relanceGob(gobJ2);
 				affichageCombinaison(gobJ2);
+				Ecran.sautDeLigne();
 			}
-			
 			//Changement de tour
 			if(tourJoueur==1) {
 				tourJoueur = 2 ;
@@ -364,18 +366,50 @@ public class AA_PokerAsV1 {
 			}
 		}
 		
-		return(2);
-	}
-	
-	
-	/** Fonction qui incrémente le nombre de victoire du joueur gagnant */
-	public static void incrementeGagnant(Joueur j1, Joueur j2, int gagnant){
+		//Troisième tour (seconde relance)
+		for(int i=0 ; i <2 ; i++){
+			if(tourJoueur==1){
+				Ecran.afficherln(j1.nom,", c'est votre tour.");
+				gobJ1 = relanceGob(gobJ1);
+				affichageCombinaison(gobJ1);
+				Ecran.sautDeLigne();
+			} else {
+				Ecran.afficherln(j2.nom,", c'est votre tour.");
+				gobJ2 = relanceGob(gobJ2);
+				affichageCombinaison(gobJ2);
+				Ecran.sautDeLigne();
+			}
+			
+			
+			//Changement de tour
+			if(tourJoueur==1) {
+				tourJoueur = 2 ;
+			} else {
+				tourJoueur = 1 ;
+			}
+		}
+			
+		//Comparaison de victoire
+		if(points(gobJ1)<points(gobJ2)){
+			gagnant = 2;
+		} else if(points(gobJ2)<points(gobJ1)){
+			gagnant = 1;
+		}
+		
+		//Incrémenter la victoire du gagnant
+		Ecran.sautDeLigne();
 		if(gagnant==1){
+			Ecran.afficher(j1.nom," a remporté le coup. ");
 			j1.gagnes++ ;
 		} else if(gagnant==2){
+			Ecran.afficher(j2.nom," a remporté le coup. ");
 			j2.gagnes++ ;
 		}
+		Ecran.afficher("\n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§\n");
 	}
+	
+	
+	
 	
 	
 	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut retourner */
@@ -526,10 +560,8 @@ public class AA_PokerAsV1 {
 			
 		//do 
 			/** Coup */
-		vainqueurTour = coup(tourJoueur,joueur1,joueur2);
-		incrementeGagnant(joueur1,joueur2,vainqueurTour);
-		
-		
+		coup(tourJoueur,joueur1,joueur2);
+	
 		
 			
 		// while(continuer()) ;

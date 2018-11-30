@@ -128,7 +128,7 @@ public class AA_PokerAsV1 {
 		boolean a3et4 = true ;
 		boolean a1et2 = false , a2et5 = false , a5et6 = false ;
 
-		for(int i=2 ;  i<=4 ; i++){
+		for(int i=3 ;  i<=4 ; i++){
 			if(!GobeletAValeur(gob,i)) {
 				a3et4 = false ;
 			}
@@ -437,7 +437,7 @@ public class AA_PokerAsV1 {
 			valeur = valeur / 10;
 			i++;
 			
-			if(i > 5){
+			if(i > 6){
 				relance.estValide = false;
 				
 				Ecran.afficherln("Vous ne pouvez pas modifier plus de cinq dés !");

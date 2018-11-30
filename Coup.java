@@ -1,5 +1,5 @@
 public class Coup{
-	
+	// CE PROGRAMME EST MAINTENANT INTEGRE DANS LA VERSION COMPLETE
 	static final int FACES = 6 ;
 	
 	/** Classe Gobelet qui contient 6 dés à valeurs entières */

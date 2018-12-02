@@ -60,29 +60,34 @@ public class AA_PokerAsV1 {
 		return(gob.de1 == i || gob.de2 == i || gob.de3 == i || gob.de4 == i || gob.de5 == i);
 	}
 	
+	/** Fonction qui retourne le nombre de dé identique à la valeur */
+	public static int compteurDeIdentique(Gobelet gob, int i){
+		int nbDe = 0 ;
+			if(i == gob.de1){
+				nbDe++;
+			}
+			if(i == gob.de2){
+				nbDe++;
+			}
+			if(i == gob.de3){
+				nbDe++;
+			}
+			if(i == gob.de4){
+				nbDe++;
+			}
+			if(i == gob.de5){
+				nbDe++;
+			}
+		return(nbDe);
+	}
+	
 	/** Teste si le gobelet contient un full, si oui, renvoie le nombre de points associé */
 	public static int pointsFull(Gobelet gob){
 		
 		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
 		boolean paire1 = false, paire2= false, brelan1= false, brelan2= false;
 		for(int i = 1; i <= 6 ; i++){
-			compteurDeIdentique1 = 0;
-			
-			if(i == gob.de1){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de2){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de3){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de4){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de5){
-				compteurDeIdentique1++;
-			}
+			compteurDeIdentique1 = compteurDeIdentique(gob,i);
 			
 			if(compteurDeIdentique1==3){
 				brelan1=true ;
@@ -91,23 +96,8 @@ public class AA_PokerAsV1 {
 			}
 		}
 		for(int i = 1; i <= 6 ; i++){
-			compteurDeIdentique2 = 0;
+			compteurDeIdentique2 = compteurDeIdentique(gob,i);
 			
-			if(i == gob.de1){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de2){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de3){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de4){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de5){
-				compteurDeIdentique2++;
-			}
 			if(compteurDeIdentique2==3){
 				brelan2=true ;
 			} else if(compteurDeIdentique2==2){
@@ -171,24 +161,7 @@ public class AA_PokerAsV1 {
 			
 		
 			for(int i = 1; i <= FACES ; i++){
-				compteurDeIdentique = 0;
-				
-				
-				if(i == gob.de1){
-					compteurDeIdentique++;
-				}
-				if(i == gob.de2){
-					compteurDeIdentique++;
-				}
-				if(i == gob.de3){
-					compteurDeIdentique++;
-				}
-				if(i == gob.de4){
-					compteurDeIdentique++;
-				}
-				if(i == gob.de5){
-					compteurDeIdentique++;
-				}
+				compteurDeIdentique = compteurDeIdentique(gob,i);
 				
 				switch(compteurDeIdentique){
 					case 2:
@@ -216,10 +189,17 @@ public class AA_PokerAsV1 {
 	
 	/** Donne le nombre de points dans un gobelet */
 	public static int points(Gobelet gob){
-		int points;
-		points = Math.max(pointsPaireBrelanCarrePoker(gob),pointsGrandeSuite(gob));
-		points = Math.max(points,pointsPetiteSuite(gob));
-		points = Math.max(points,pointsFull(gob));
+		int points = 0;
+		points = pointsPaireBrelanCarrePoker(gob);
+		if(points==0){
+			points = pointsGrandeSuite(gob);
+			if(points==0){
+				points = pointsPetiteSuite(gob);
+				if(points==0){
+					points = pointsFull(gob);
+				}
+			}
+		}
 		return(points);
 	}
 
@@ -345,50 +325,39 @@ public class AA_PokerAsV1 {
 			}
 		}
 		
-		//Second tour (première relance)
-		for(int i=0 ; i <2 ; i++){
-			if(tourJoueur==1){
-				Ecran.afficherln(j1.nom,", c'est votre tour.");
-				gobJ1 = relanceGob(gobJ1);
-				affichageCombinaison(gobJ1);
-				Ecran.sautDeLigne();
-			} else {
-				Ecran.afficherln(j2.nom,", c'est votre tour.");
-				gobJ2 = relanceGob(gobJ2);
-				affichageCombinaison(gobJ2);
-				Ecran.sautDeLigne();
+		//Première et deuxième relance
+		for(int j=1 ; j<3 ; j++){
+			if(j==1){
+				Ecran.afficher("Première relance \n");
+			} else if(j==2){
+				Ecran.afficher("Deuxième relance \n");
 			}
-			//Changement de tour
-			if(tourJoueur==1) {
-				tourJoueur = 2 ;
-			} else {
-				tourJoueur = 1 ;
+			
+			
+			for(int i=0 ; i <2 ; i++){
+				if(tourJoueur==1){
+					Ecran.afficherln(j1.nom,", c'est votre tour. Vous avez pour l'instant ");
+					affichageCombinaison(gobJ1);
+					gobJ1 = relanceGob(gobJ1);
+					affichageCombinaison(gobJ1);
+					Ecran.sautDeLigne();
+				} else {
+					Ecran.afficherln(j2.nom,", c'est votre tour. Vous avez pour l'instant ");
+					affichageCombinaison(gobJ2);
+					gobJ2 = relanceGob(gobJ2);
+					affichageCombinaison(gobJ2);
+					Ecran.sautDeLigne();
+				}
+				//Changement de tour
+				if(tourJoueur==1) {
+					tourJoueur = 2 ;
+				} else {
+					tourJoueur = 1 ;
+				}
 			}
 		}
 		
-		//Troisième tour (seconde relance)
-		for(int i=0 ; i <2 ; i++){
-			if(tourJoueur==1){
-				Ecran.afficherln(j1.nom,", c'est votre tour.");
-				gobJ1 = relanceGob(gobJ1);
-				affichageCombinaison(gobJ1);
-				Ecran.sautDeLigne();
-			} else {
-				Ecran.afficherln(j2.nom,", c'est votre tour.");
-				gobJ2 = relanceGob(gobJ2);
-				affichageCombinaison(gobJ2);
-				Ecran.sautDeLigne();
-			}
-			
-			
-			//Changement de tour
-			if(tourJoueur==1) {
-				tourJoueur = 2 ;
-			} else {
-				tourJoueur = 1 ;
-			}
-		}
-			
+		
 		//Comparaison de victoire
 		if(points(gobJ1)<points(gobJ2)){
 			gagnant = 2;
@@ -501,14 +470,14 @@ public class AA_PokerAsV1 {
 	
 		int valeur = 0;
 		
-		Ecran.afficherln("Quel dé voulez vous relancez ?");
+		Ecran.afficherln("Quel(s) dé(s) voulez-vous relancer ?");
 		valeur = Clavier.saisirInt();
 		
 		Relance relance = new Relance();
 		relance = estValideDe(valeur);
 		
 		while(!(relance.estValide)){
-			Ecran.afficherln("Quel dé voulez vous relancez ?");
+			Ecran.afficherln("Quel(s) dé(s) voulez-vous relancer ?");
 			valeur = Clavier.saisirInt();
 			relance = estValideDe(valeur);
 		}

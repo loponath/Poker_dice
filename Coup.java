@@ -280,7 +280,7 @@ public class Coup{
 		Gobelet gobelet = new Gobelet();
 		int points;
 		
-		for(int i=0 ; i<100 ; i++){
+		for(int i=0 ; i<10000 ; i++){
 			gobelet = lancerGob();
 			affichageCombinaison(gobelet, points(gobelet));
 			

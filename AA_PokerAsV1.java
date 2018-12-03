@@ -85,34 +85,53 @@ public class AA_PokerAsV1 {
 	public static int pointsFull(Gobelet gob){
 		
 		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
-		boolean paire1 = false, paire2= false, brelan1= false, brelan2= false;
+		boolean paire=false, brelan= false;
+		
 		for(int i = 1; i <= 6 ; i++){
 			compteurDeIdentique1 = compteurDeIdentique(gob,i);
 			
 			if(compteurDeIdentique1==3){
-				brelan1=true ;
+				brelan=true ;
 			} else if(compteurDeIdentique1==2){
-				paire1=true;
-			}
-		}
-		for(int i = 1; i <= 6 ; i++){
-			compteurDeIdentique2 = compteurDeIdentique(gob,i);
-			
-			if(compteurDeIdentique2==3){
-				brelan2=true ;
-			} else if(compteurDeIdentique2==2){
-				paire2=true;
+				paire=true;
 			}
 		}
 		
 		int points = 0;
 		
-		if((paire1 && brelan2) || (paire2 && brelan1))
+		if(paire && brelan)
 			points= 4;
 		
 		return points;
 		
 	}
+	
+		/** Teste si le gobelet contient une double paire, si oui, renvoie le nombre de points associé */
+	public static int pointsDoublePaire(Gobelet gob){
+		
+		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
+		boolean paire1 = false, paire2= false;
+		
+		for(int i = 1; i <= 6 ; i++){
+			compteurDeIdentique1 = compteurDeIdentique(gob,i);
+			
+			if(compteurDeIdentique1==2 && paire1){
+				paire2=true;
+			}
+			if(compteurDeIdentique1==2){
+				paire1=true;
+			}
+		}
+		
+		int points = 0;
+		
+		if(paire1 && paire2)
+			points= 2;
+		
+		return points;
+		
+	}
+	
 	/** Teste si le gobelet contient une petite suite, et si oui, renvoie le nombre de point associé */
 	public static int pointsPetiteSuite(Gobelet gob) {
 		boolean a3et4 = true ;
@@ -190,13 +209,16 @@ public class AA_PokerAsV1 {
 	/** Donne le nombre de points dans un gobelet */
 	public static int points(Gobelet gob){
 		int points = 0;
-		points = pointsPaireBrelanCarrePoker(gob);
+		points = pointsFull(gob);
 		if(points==0){
-			points = pointsGrandeSuite(gob);
+			points = pointsDoublePaire(gob);
 			if(points==0){
-				points = pointsPetiteSuite(gob);
+				points = pointsGrandeSuite(gob);
 				if(points==0){
-					points = pointsFull(gob);
+					points = pointsPetiteSuite(gob);
+					if(points==0){
+						points = pointsPaireBrelanCarrePoker(gob);
+					}
 				}
 			}
 		}
@@ -204,7 +226,8 @@ public class AA_PokerAsV1 {
 	}
 
 	/**Afficher un gobelet et la combinaison la plus forte qu'il contient */
-	public static void affichageCombinaison(Gobelet gob){
+	public static void affichageCombinaison(Joueur j, Gobelet gob){
+		Ecran.afficher(j.nom," ");
 		afficherGob(gob);
 		int point = points(gob);
 		switch(point){
@@ -244,6 +267,7 @@ public class AA_PokerAsV1 {
 	public static class Joueur {
 		String nom ;
 		int gagnes ;
+		boolean continuer = true ;
 	}
 	
 	/** Fonction pour entrer le nom du joueur, et définir son nombre de coups remportés à 0. */
@@ -308,12 +332,12 @@ public class AA_PokerAsV1 {
 			if(tourJoueur==1){
 				Ecran.afficherln(j1.nom,", c'est votre tour.");
 				gobJ1 = lancerGob();
-				affichageCombinaison(gobJ1);
+				affichageCombinaison(j1,gobJ1);
 				Ecran.sautDeLigne();
 			} else {
 				Ecran.afficherln(j2.nom,", c'est votre tour.");
 				gobJ2 = lancerGob();
-				affichageCombinaison(gobJ2);
+				affichageCombinaison(j2,gobJ2);
 				Ecran.sautDeLigne();
 			}
 			
@@ -337,15 +361,15 @@ public class AA_PokerAsV1 {
 			for(int i=0 ; i <2 ; i++){
 				if(tourJoueur==1){
 					Ecran.afficherln(j1.nom,", c'est votre tour. Vous avez pour l'instant ");
-					affichageCombinaison(gobJ1);
+					affichageCombinaison(j1, gobJ1);
 					gobJ1 = relanceGob(gobJ1);
-					affichageCombinaison(gobJ1);
+					affichageCombinaison(j1, gobJ1);
 					Ecran.sautDeLigne();
 				} else {
 					Ecran.afficherln(j2.nom,", c'est votre tour. Vous avez pour l'instant ");
-					affichageCombinaison(gobJ2);
+					affichageCombinaison(j2, gobJ2);
 					gobJ2 = relanceGob(gobJ2);
-					affichageCombinaison(gobJ2);
+					affichageCombinaison(j2, gobJ2);
 					Ecran.sautDeLigne();
 				}
 				//Changement de tour
@@ -373,6 +397,8 @@ public class AA_PokerAsV1 {
 		} else if(gagnant==2){
 			Ecran.afficher(j2.nom," a remporté le coup. ");
 			j2.gagnes++ ;
+		} else {
+			Ecran.afficher("Égalité entre ",j1.nom," et ",j2.nom,". ");
 		}
 		Ecran.afficher("\n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§\n");
 	}
@@ -503,7 +529,16 @@ public class AA_PokerAsV1 {
 		return(gob);
 	}
 	
-	
+	/**Continuer */
+	public static Joueur continuer(Joueur j){
+		Ecran.afficher(j.nom,", voulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer) : ");
+		char touche=Clavier.saisirChar();
+		if(touche=='n' || touche=='N'){
+			j.continuer=false;
+		}
+		return(j);
+		
+	}
 	/** 
 	
 	Action principale
@@ -526,14 +561,29 @@ public class AA_PokerAsV1 {
 		/** Partie */
 			/**Tirage au sort du premier joueur */
 		tourJoueur = tirageAuSort() ;
-			
-		//do 
+		
+		boolean continuer = true;
+		do{
 			/** Coup */
-		coup(tourJoueur,joueur1,joueur2);
-	
+
+			coup(tourJoueur,joueur1,joueur2);
+			
+			//Changement de joueur qui commencera
+			if(tourJoueur==1){
+				joueur2 = continuer(joueur2);
+				joueur1 = continuer(joueur1);
+				tourJoueur=2;
+			} else {
+				tourJoueur=1;
+				joueur1 = continuer(joueur1);
+				joueur2 = continuer(joueur2);
+			}
+			
+			
 		
 			
-		// while(continuer()) ;
+		}while(joueur2.continuer || joueur1.continuer) ;
+		
 		afficherScore(joueur1,joueur2);
 	}
 }

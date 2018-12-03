@@ -44,17 +44,7 @@ public class Coup{
 		return(gob) ;
 	}
 	
-	public static class Relance {
-		boolean estValide ;
-		boolean de1 ;
-		boolean de2 ;
-		boolean de3 ;
-		boolean de4 ;
-		boolean de5 ;
-	}/** Afficher le contenu d'un gobelet */
-	public static void afficherGob(Gobelet gob){
-		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
-	}
+	
 	
 	public static void afficherRelance(Relance relance){
 		Ecran.afficher('(',relance.estValide,' ',relance.de1,' ',relance.de2,' ',relance.de3,' ',relance.de4,' ',relance.de5,')');
@@ -65,69 +55,79 @@ public class Coup{
 		return(gob.de1 == i || gob.de2 == i || gob.de3 == i || gob.de4 == i || gob.de5 == i);
 	}
 	
+	/** Fonction qui retourne le nombre de dé identique à la valeur */
+	public static int compteurDeIdentique(Gobelet gob, int i){
+		int nbDe = 0 ;
+			if(i == gob.de1){
+				nbDe++;
+			}
+			if(i == gob.de2){
+				nbDe++;
+			}
+			if(i == gob.de3){
+				nbDe++;
+			}
+			if(i == gob.de4){
+				nbDe++;
+			}
+			if(i == gob.de5){
+				nbDe++;
+			}
+		return(nbDe);
+	}
+	
 	/** Teste si le gobelet contient un full, si oui, renvoie le nombre de points associé */
 	public static int pointsFull(Gobelet gob){
 		
 		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
-		boolean paire1 = false, paire2= false, brelan1= false, brelan2= false;
+		boolean paire=false, brelan= false;
+		
 		for(int i = 1; i <= 6 ; i++){
-			compteurDeIdentique1 = 0;
-			
-			if(i == gob.de1){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de2){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de3){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de4){
-				compteurDeIdentique1++;
-			}
-			if(i == gob.de5){
-				compteurDeIdentique1++;
-			}
+			compteurDeIdentique1 = compteurDeIdentique(gob,i);
 			
 			if(compteurDeIdentique1==3){
-				brelan1=true ;
+				brelan=true ;
 			} else if(compteurDeIdentique1==2){
-				paire1=true;
-			}
-		}
-		for(int i = 1; i <= 6 ; i++){
-			compteurDeIdentique2 = 0;
-			
-			if(i == gob.de1){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de2){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de3){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de4){
-				compteurDeIdentique2++;
-			}
-			if(i == gob.de5){
-				compteurDeIdentique2++;
-			}
-			if(compteurDeIdentique2==3){
-				brelan2=true ;
-			} else if(compteurDeIdentique2==2){
-				paire2=true;
+				paire=true;
 			}
 		}
 		
 		int points = 0;
 		
-		if((paire1 && brelan2) || (paire2 && brelan1))
+		if(paire && brelan)
 			points= 4;
 		
 		return points;
 		
 	}
+	
+	/** Teste si le gobelet contient une double paire, si oui, renvoie le nombre de points associé */
+	public static int pointsDoublePaire(Gobelet gob){
+		
+		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
+		boolean paire1 = false, paire2= false;
+		
+		for(int i = 1; i <= 6 ; i++){
+			compteurDeIdentique1 = compteurDeIdentique(gob,i);
+			
+			if(compteurDeIdentique1==2 && paire1){
+				paire2=true;
+				}
+			if(compteurDeIdentique1==2){
+				paire1=true;
+			}
+		}
+		
+		int points = 0;
+		
+		if(paire1 && paire2)
+			points= 2;
+		
+		return points;
+		
+	}
+	
+	
 	/** Teste si le gobelet contient une petite suite, et si oui, renvoie le nombre de point associé */
 	public static int pointsPetiteSuite(Gobelet gob) {
 		boolean a3et4 = true ;
@@ -219,12 +219,22 @@ public class Coup{
 		
 		}
 	
-	/** Donne le nombre de points dans un gobelet */
+		/** Donne le nombre de points dans un gobelet */
 	public static int points(Gobelet gob){
-		int points;
-		points = Math.max(pointsPaireBrelanCarrePoker(gob),pointsGrandeSuite(gob));
-		points = Math.max(points,pointsPetiteSuite(gob));
-		points = Math.max(points,pointsFull(gob));
+		int points = 0;
+		points = pointsFull(gob);
+		if(points==0){
+			points = pointsDoublePaire(gob);
+			if(points==0){
+				points = pointsGrandeSuite(gob);
+				if(points==0){
+					points = pointsPetiteSuite(gob);
+					if(points==0){
+						points = pointsPaireBrelanCarrePoker(gob);
+					}
+				}
+			}
+		}
 		return(points);
 	}
 
@@ -270,14 +280,11 @@ public class Coup{
 		Gobelet gobelet = new Gobelet();
 		int points;
 		
-		gobelet = lancerGob();
-		
-		affichageCombinaison(gobelet, points(gobelet));
-		
-		relanceDe(gobelet);
-		
-		affichageCombinaison(gobelet, points(gobelet));
-
+		for(int i=0 ; i<100 ; i++){
+			gobelet = lancerGob();
+			affichageCombinaison(gobelet, points(gobelet));
+			
+		}
 	}
 	
 }

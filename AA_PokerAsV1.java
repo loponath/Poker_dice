@@ -71,12 +71,12 @@ public class AA_PokerAsV1 {
 	
 	/** 
 	*Fonction pour afficher le nom du joueur et son nombre de coups remportés 
-	*@param jou : Joueur dont on veut afficher les informations.
+	*@param j : Joueur dont on veut afficher les informations.
 	*/
-	public static void afficherJoueur(Joueur jou){
-		Ecran.afficher(jou.nom,", ",jou.gagnes," victoire");
+	public static void afficherJoueur(Joueur j){
+		Ecran.afficher(j.nom,", ",j.gagnes," victoire");
 		
-		if(jou.gagnes<2){
+		if(j.gagnes<2){
 			Ecran.afficher(". ");
 		} else {
 			Ecran.afficher("s. ");
@@ -100,12 +100,7 @@ public class AA_PokerAsV1 {
 	*/
 	public static void afficherRelance(Relance relance){
 		Ecran.afficher('(',relance.estValide,' ',relance.de1,' ',relance.de2,' ',relance.de3,' ',relance.de4,' ',relance.de5,')');
-	}
-	
-
-	
-
-	
+	}	
 	
 	
 	/** 

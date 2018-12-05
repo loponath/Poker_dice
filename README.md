@@ -1,4 +1,4 @@
-# Projet---Poker-d-as
+#Poker_dice
 Licence Informatique : Poker d'As, projet de fin de premier semestre
 
 Il y a seulement une branche principale dans laquelle mon binôme et moi même mettons nos versions de plus en plus avancées du programme.

@@ -1,11 +1,20 @@
 public class AA_PokerAsV1 {
 	/**
 	* Le jeu du poker d'as (Poker dice) pour deux joueurs.
-	* Créateurs : Lucas Cosson & Nathanaël Houn
+	* <br>Créateurs : Lucas Cosson & Nathanaël Houn
 	*/
 	
 	/** Déclaration du nombre de faces des dés utilisés */
 	static final int FACES = 6 ;
+	
+	/** 
+	* Lancer aléatoire d'un dé à FACES nombre de face
+	* @return Un entier compris entre 1 et le nombre de faces (inclus)
+	*/
+	public static int aleatoire(){
+		return((int)(Math.random()*FACES)+1);
+		
+	}
 	
 	/** Classe Gobelet qui contient 6 dés à valeurs entières */
 	public static class Gobelet {
@@ -14,6 +23,64 @@ public class AA_PokerAsV1 {
 		int de3 ;
 		int de4 ;
 		int de5 ;
+	}
+	
+	/** 
+	*Lancer aléatoire d'un gobelet de 5 dés 
+	*@return gob : gobelet contenant 5 dés à valeurs entières aléatoires entre 1 et le nombre de FACES inclus
+	*/
+	public static Gobelet lancerGob(){
+		Gobelet gob=new Gobelet();
+		gob.de1 = aleatoire() ;
+		gob.de2 = aleatoire() ;
+		gob.de3 = aleatoire() ;
+		gob.de4 = aleatoire() ;
+		gob.de5 = aleatoire() ;
+		return(gob) ;
+	}
+	
+	/** 
+	*Afficher le contenu d'un gobelet 
+	* @param gob : Gobelet que l'on veut afficher
+	*/
+	public static void afficherGob(Gobelet gob){
+		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
+	}
+	
+	/** Type agrégé Joueur qui contient le nom du joueur et le nombre de coups remportés par le joueur, ainsi que la donnée s'il veut continuer la partie ou non */
+	public static class Joueur {
+		/** Nom du joueur */
+		String nom ;
+		/* Nombre de coups remportés */
+		int gagnes ;
+		/* Veut-il continuer la partie ? */
+		boolean continuer = true ;
+	}
+	
+	/** 
+	*Fonction pour entrer le nom du joueur, et définir son nombre de coups remportés à 0. 
+	*@return joueur : Type agrégé joueur avec son nom entré et 0 victoires
+	*/
+	public static Joueur creerJoueur() {
+		Joueur joueur = new Joueur();
+		Ecran.afficher("Entrez le nom du joueur : ");
+		joueur.nom = Clavier.saisirString();
+		joueur.gagnes = 0 ;
+		return(joueur);
+	}
+	
+	/** 
+	*Fonction pour afficher le nom du joueur et son nombre de coups remportés 
+	*@param j : Joueur dont on veut afficher les informations.
+	*/
+	public static void afficherJoueur(Joueur j){
+		Ecran.afficher(j.nom,", ",j.gagnes," victoire");
+		
+		if(j.gagnes<2){
+			Ecran.afficher(". ");
+		} else {
+			Ecran.afficher("s. ");
+		}
 	}
 	
 	/** Classe relance pour savoir si l'on relance le gobelet */
@@ -29,42 +96,29 @@ public class AA_PokerAsV1 {
 	
 	/** 
 	* Afficher le type Relance 
-	* @param Type Relance que l'on veut afficher
+	* @param relance : type Relance que l'on veut afficher
 	*/
 	public static void afficherRelance(Relance relance){
 		Ecran.afficher('(',relance.estValide,' ',relance.de1,' ',relance.de2,' ',relance.de3,' ',relance.de4,' ',relance.de5,')');
-	}
-	
-	/** Lancer aléatoire d'un dé à FACES nombre de FACE */
-	public static int aleatoire(){
-		return((int)(Math.random()*FACES)+1);
-		
-	}
-	
-	/** Lancer aléatoire d'un gobelet de 5 dés */
-	public static Gobelet lancerGob(){
-		Gobelet gob=new Gobelet();
-		gob.de1 = aleatoire() ;
-		gob.de2 = aleatoire() ;
-		gob.de3 = aleatoire() ;
-		gob.de4 = aleatoire() ;
-		gob.de5 = aleatoire() ;
-		return(gob) ;
-	}
-	
-	/** Afficher le contenu d'un gobelet */
-	public static void afficherGob(Gobelet gob){
-		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
-	}
+	}	
 	
 	
-	
-	/** Teste si le gobelet contient une valeur */
+	/** 
+	*Teste si le gobelet contient une valeur 
+	*@param gob : Gobelet que l'on veut tester
+	*@param i : entier dont on étudie la présence ou l'absence
+	*@return true si gob contient l'entier, false sinon
+	*/
 	public static boolean GobeletAValeur(Gobelet gob, int i){
 		return(gob.de1 == i || gob.de2 == i || gob.de3 == i || gob.de4 == i || gob.de5 == i);
 	}
 	
-	/** Fonction qui retourne le nombre de dé identique à la valeur */
+	/**
+	*Fonction qui retourne le nombre de dé identique à la valeur 
+	*@param gob : Gobelet que l'on veut tester
+	*@param i : entier dont on étudie le nombre de présence dans le gobelet
+	*@return nbDe : nombre de dés contenus dans le gobelet qui ont la valeur i
+	*/
 	public static int compteurDeIdentique(Gobelet gob, int i){
 		int nbDe = 0 ;
 			if(i == gob.de1){
@@ -85,7 +139,11 @@ public class AA_PokerAsV1 {
 		return(nbDe);
 	}
 	
-	/** Teste si le gobelet contient un full, si oui, renvoie le nombre de points associé */
+	/**
+	*Teste si le gobelet contient un full, si oui, renvoie le nombre de points associé 
+	*@param gob : Gobelet que l'on teste
+	*@return points : 4 s'il y a un full, 0 sinon
+	*/
 	public static int pointsFull(Gobelet gob){
 		
 		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
@@ -110,7 +168,11 @@ public class AA_PokerAsV1 {
 		
 	}
 	
-		/** Teste si le gobelet contient une double paire, si oui, renvoie le nombre de points associé */
+	/** 
+	*Teste si le gobelet contient une double paire, si oui, renvoie le nombre de points associé 
+	*@param gob : Gobelet que l'on teste
+	*@return points : 2 s'il y a une double paire, 0 sinon
+	*/
 	public static int pointsDoublePaire(Gobelet gob){
 		
 		int compteurDeIdentique1 = 0, compteurDeIdentique2 = 0;
@@ -136,7 +198,11 @@ public class AA_PokerAsV1 {
 		
 	}
 	
-	/** Teste si le gobelet contient une petite suite, et si oui, renvoie le nombre de point associé */
+	/** 
+	*Teste si le gobelet contient une petite suite, si oui, renvoie le nombre de points associé 
+	*@param gob : Gobelet que l'on teste
+	*@return points : 7 s'il y a une petite suite, 0 sinon
+	*/
 	public static int pointsPetiteSuite(Gobelet gob) {
 		boolean a3et4 = true ;
 		boolean a1et2 = false , a2et5 = false , a5et6 = false ;
@@ -158,7 +224,11 @@ public class AA_PokerAsV1 {
 		return(points);
 	}
 
-	/** Teste si le gobelet contient une grande suite, et si oui, renvoie le nombre de point associé */
+	/** 
+	*Teste si le gobelet contient une grande suite, si oui, renvoie le nombre de points associé 
+	*@param gob : Gobelet que l'on teste
+	*@return points : 8 s'il y a une grande suite, 0 sinon
+	*/
 	public static int pointsGrandeSuite(Gobelet gob) {
 		boolean aDe2a5 = true ;
 		boolean a1ou6 = false ; 
@@ -177,7 +247,11 @@ public class AA_PokerAsV1 {
 		return(points);
 	}
 	
-	/** Teste si le gobelet contient une paire, un brelan, un carré ou un poker */
+	/** 
+	*Teste si le gobelet contient une paire, un brelan, un carré ou un poker, si oui, renvoie le nombre de points associé 
+	*@param gob : Gobelet que l'on teste
+	*@return points : 1 s'il y a une paire, 3 s'il y a un brelan, 4 s'il y a un carré, 8 s'il y a un poker, 0 sinon
+	*/
 	public static int pointsPaireBrelanCarrePoker(Gobelet gob){
 		
 			int compteurDeIdentique = 0, resultat = 0, resultatProvisoire = 0;
@@ -210,7 +284,11 @@ public class AA_PokerAsV1 {
 		
 		}
 	
-	/** Donne le nombre de points dans un gobelet */
+	/** 
+	*Donne le nombre de points dans un gobelet 
+	*@param gob : Gobelet que l'on teste
+	*@return points : nombre de points lié à la combinaison la plus forte présente dans le gobelet
+	*/
 	public static int points(Gobelet gob){
 		int points = 0;
 		points = pointsFull(gob);
@@ -229,7 +307,11 @@ public class AA_PokerAsV1 {
 		return(points);
 	}
 
-	/**Afficher un gobelet et la combinaison la plus forte qu'il contient */
+	/**
+	*Afficher un gobelet et la combinaison la plus forte qu'il contient au format "nom_du_joueur (0 1 2 3 4) - combinaison_la_plus_forte"
+	*@param j : Type Joueur du joueur qui a obtenu ce gobelet
+	*@param gob : Gobelet que l'on affiche et dont on afficher la combinaison.
+	*/
 	public static void affichageCombinaison(Joueur j, Gobelet gob){
 		Ecran.afficher(j.nom," ");
 		afficherGob(gob);
@@ -267,43 +349,9 @@ public class AA_PokerAsV1 {
 	}
 	
 	
-	/** Classe Joueur qui contient le nom du joueur et le nombre de coups remportés par le joueur */
-	public static class Joueur {
-		String nom ;
-		int gagnes ;
-		boolean continuer = true ;
-	}
 	
-	/** Fonction pour entrer le nom du joueur, et définir son nombre de coups remportés à 0. */
-	public static Joueur creerJoueur() {
-		Joueur joueur = new Joueur();
-		Ecran.afficher("Entrez le nom du joueur : ");
-		joueur.nom = Clavier.saisirString();
-		joueur.gagnes = 0 ;
-		return(joueur);
-	}
-	
-	/** Fonction pour afficher le nom du joueur et son nombre de coups remportés 
-	
-	@param j : 
-	
-	*/
-	public static void afficherJoueur(Joueur jou){
-		Ecran.afficher(jou.nom,", ",jou.gagnes," victoire");
-		
-		if(jou.gagnes<2){
-			Ecran.afficher(". ");
-		} else {
-			Ecran.afficher("s. ");
-		}
-	}
 
-	/** Fonction affichant le score des deux joueurs puis le gagnant ou l'égalité. 
-	
-	@param j1 : Type agrégé du joueur 1
-	@param j2 : Type agrégé du joueur 2
-	
-	*/
+	/** Fonction affichant le score des deux joueurs puis le gagnant ou l'égalité. */
 	public static void afficherScore(Joueur j1, Joueur j2){
 		Ecran.afficherln("\n\n *********** Fin de partie *********** ");
 		Ecran.afficherln(" ********* Écran des scores ********** ");
@@ -323,21 +371,13 @@ public class AA_PokerAsV1 {
 	}
 	
 	
-	/** Fonction générant un nombre aléatoire entre 0 et 1 
-	@return Un nombre aléatoire entre 0 et 1 permettant de connaitre le joueur qui commence
-	*/
+	/** Fonction générant un nombre aléatoire entre 0 et 1 */
 	public static int tirageAuSort() {
 		return((int)(Math.random()*2)) ;
 	}
 	
 	 
-	/** Fonction coup qui joue un coup avec les relances 
-	
-	@param tourJoueur : Le tour du joueur en cour 
-	@param j1 : Type agrégé du joueur 1
-	@param j2 : Type agrégé du joueur 2
-	
-	*/
+	/* Fonction coup qui joue un coup avec les relances */
 	public static void coup(int tourJoueur, Joueur j1, Joueur j2) {
 		
 		Gobelet gobJ1 = new Gobelet();
@@ -428,12 +468,7 @@ public class AA_PokerAsV1 {
 	
 	
 	
-	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut retourner 
-	
-	@param valeur : Valeur des dés entrée par l'utilisateur à vérifier
-	@return Le type structuré permettant de savoir si la relance est possible ou non
-	
-	*/
+	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut retourner */
 	public static Relance estValideDe(int valeur){
 		
 		int de  = 0, i = 1, valeurSafe = valeur;
@@ -517,12 +552,7 @@ public class AA_PokerAsV1 {
 	}
 	
 	
-	/** Fonction pour relancer un gobelet 
-	
-	@param gob : Selection du gobelet pour la relance
-	@return Le gobelet avec les modifications sur les différents dés
-	
-	*/
+	/** Fonction pour relancer un gobelet */
 	public static Gobelet relanceGob(Gobelet gob){
 	
 		int valeur = 0;
@@ -560,12 +590,7 @@ public class AA_PokerAsV1 {
 		return(gob);
 	}
 	
-	/**Continuer 
-	
-	@param j : Selection du joueur pour la demande de poursuite du programme
-	@return Le type structuré joueur avec la valeur de poursuite du programme modifié
-	
-	*/
+	/**Continuer */
 	public static Joueur continuer(Joueur j){
 		Ecran.afficher(j.nom,", voulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer) : ");
 		char touche=Clavier.saisirChar();
@@ -580,6 +605,7 @@ public class AA_PokerAsV1 {
 	Action principale
 	
 	*/
+	public static void main(String args[]) {
 	public static void main(String args[]) {
 		/** Déclaration des joueurs et saisie des noms */
 		

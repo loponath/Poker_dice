@@ -62,7 +62,7 @@ public class PokerAs {
 	*/
 	public static Joueur creerJoueur() {
 		Joueur joueur = new Joueur();
-		Ecran.afficher("Entrez le nom du joueur  ");
+		Ecran.afficher("Entrez le nom du joueur : ");
 		joueur.nom = Clavier.saisirString();
 		joueur.gagnes = 0 ;
 		return(joueur);
@@ -314,8 +314,8 @@ public class PokerAs {
 	public static void affichageCombinaison(Joueur j, Gobelet gob){
 		Ecran.afficher(j.nom," ");
 		afficherGob(gob);
-		gob.points = points(gob);
-		switch(gob.point){
+		points(gob);
+		switch(gob.points){
 			case 1 :
 				Ecran.afficher(" - Paire");
 				break;

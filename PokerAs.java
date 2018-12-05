@@ -5,29 +5,31 @@ public class PokerAs {
 	*/
 	
 	/** Déclaration du nombre de faces des dés utilisés */
-	static final int FACES = 6 ;
+	public static final int FACES = 6 ;
 	
 	/** 
-	* Lancer aléatoire d'un dé à FACES nombre de face
-	* @return Un entier compris entre 1 et le nombre de faces (inclus)
+	* Lancer aléatoire d'un dé à FACES nombre de faces
+	* @return Un entier compris entre 1 et le nombre de faces du dé (inclus)
 	*/
 	public static int aleatoire(){
 		return((int)(Math.random()*FACES)+1);
 		
 	}
 	
-	/** Classe Gobelet qui contient 6 dés à valeurs entières et le nombre de points correspondant à la plus forte combinaison */
+	/** Type agrégé Gobelet qui contient 6 dés à valeurs entières et le nombre de points correspondant à la plus forte combinaison */
 	public static class Gobelet {
+		/** Les 5 dés contenus dans le gobelet */
 		int de1 ;
 		int de2 ;
 		int de3 ;
 		int de4 ;
 		int de5 ;
+		/** Combien de points vaut la plus forte combinaison présente dans le gobelet ? */
 		int points = 0 ;
 	}
 	
 	/** 
-	*Lancer aléatoire d'un gobelet de 5 dés 
+	*Création et lancer aléatoire d'un gobelet de 5 dés 
 	*@return Le gobelet contenant 5 dés à valeurs entières aléatoires entre 1 et le nombre de FACES inclus
 	*/
 	public static Gobelet lancerGob(){
@@ -57,8 +59,8 @@ public class PokerAs {
 	}
 	
 	/** 
-	*Fonction pour entrer le nom du joueur, et définir son nombre de coups remportés à 0. 
-	*@return Le joueur avec son nom entré et 0 victoires
+	*Créer un joueur, entrer son nom, et définir son nombre de coups remportés à 0. 
+	*@return Le joueur avec son nom entré et 0 victoire
 	*/
 	public static Joueur creerJoueur() {
 		Joueur joueur = new Joueur();
@@ -69,7 +71,7 @@ public class PokerAs {
 	}
 	
 	/** 
-	*Fonction pour afficher le nom du joueur et son nombre de coups remportés 
+	*Affichage du nom du joueur et son nombre de coups remportés 
 	*@param j  Joueur dont on veut afficher les informations.
 	*/
 	public static void afficherJoueur(Joueur j){
@@ -82,9 +84,11 @@ public class PokerAs {
 		}
 	}
 	
-	/** Classe relance pour savoir si l'on relance le gobelet */
+	/** Type agrégé Relance pour savoir si l'on relance le gobelet */
 	public static class Relance {
+		/** La relance demandée est-elle valide ? */
 		boolean estValide ;
+		/** Faut-il relancer le de_ ? */
 		boolean de1 ;
 		boolean de2 ;
 		boolean de3 ;
@@ -350,14 +354,14 @@ public class PokerAs {
 	
 	
 
-	/** Fonction affichant le score des deux joueurs puis le gagnant ou l'égalité. 
+	/** Fonction affichant le score des deux joueurs puis le nom du 	gagnant ou l'égalité. 
 	
 	@param j1  Type agrégé du joueur 1
 	@param j2  Type agrégé du joueur 2
 	
 	*/
 	public static void afficherScore(Joueur j1, Joueur j2){
-		Ecran.afficherln("\n\n *********** Fin de partie *********** ");
+		Ecran.afficherln("\n\n\n *********** Fin de partie *********** ");
 		Ecran.afficherln(" ********* Écran des scores ********** ");
 		afficherJoueur(j1);
 		Ecran.sautDeLigne();
@@ -371,14 +375,14 @@ public class PokerAs {
 		} else {
 			Ecran.afficher("C'est ",j1.nom," qui a gagné.");
 		}
-		Ecran.afficherln(" Bravo !");	
+		Ecran.afficherln(" Bravo ! \n \n \n");	
 	}
 	
 	
 	/** Fonction générant un nombre aléatoire entre 0 et 1 
 	@return Un nombre aléatoire entre 0 et 1 permettant de connaitre le joueur qui commence
 	*/
-	public static int tirageAuSort() {
+	public static int TirageAuSort() {
 		return((int)(Math.random()*2)) ;
 	}
 	
@@ -425,21 +429,21 @@ public class PokerAs {
 		//Première et deuxième relance
 		for(int j=1 ; j<3 ; j++){
 			if(j==1){
-				Ecran.afficher("Première relance \n");
+				Ecran.afficher(" ¤¤¤¤ Première relance ¤¤¤¤\n\n");
 			} else if(j==2){
-				Ecran.afficher("Deuxième relance \n");
+				Ecran.afficher(" ¤¤¤¤ Deuxième relance ¤¤¤¤\n\n");
 			}
 			
 			
 			for(int i=0 ; i <2 ; i++){
 				if(tourJoueur==1){
-					Ecran.afficherln(j1.nom,", c'est votre tour. Vous avez pour l'instant ");
+					Ecran.afficher(j1.nom,", c'est votre tour. Vous avez pour l'instant ");
 					affichageCombinaison(j1, gobJ1);
 					gobJ1 = relanceGob(gobJ1);
 					affichageCombinaison(j1, gobJ1);
 					Ecran.sautDeLigne();
 				} else {
-					Ecran.afficherln(j2.nom,", c'est votre tour. Vous avez pour l'instant ");
+					Ecran.afficher(j2.nom,", c'est votre tour. Vous avez pour l'instant ");
 					affichageCombinaison(j2, gobJ2);
 					gobJ2 = relanceGob(gobJ2);
 					affichageCombinaison(j2, gobJ2);
@@ -473,7 +477,7 @@ public class PokerAs {
 		} else {
 			Ecran.afficher("Égalité entre ",j1.nom," et ",j2.nom,". ");
 		}
-		Ecran.afficher("\n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§\n");
+		Ecran.afficher("\n------------------------------------------- \n");
 	}
 	
 	
@@ -579,14 +583,14 @@ public class PokerAs {
 	
 		int valeur = 0;
 		
-		Ecran.afficherln("Quel(s) dé(s) voulez-vous relancer ?");
+		Ecran.afficher("Quel(s) dé(s) voulez-vous relancer ? ");
 		valeur = Clavier.saisirInt();
 		
 		Relance relance = new Relance();
 		relance = estValideDe(valeur);
 		
 		while(!(relance.estValide)){
-			Ecran.afficherln("Quel(s) dé(s) voulez-vous relancer ?");
+			Ecran.afficher("Quel(s) dé(s) voulez-vous relancer ? ");
 			valeur = Clavier.saisirInt();
 			relance = estValideDe(valeur);
 		}
@@ -624,6 +628,7 @@ public class PokerAs {
 		if(touche=='n' || touche=='N'){
 			continuer=false;
 		}
+		Ecran.afficher("\n------------------------------------------- \n");
 		return(continuer);
 		
 	}
@@ -635,21 +640,26 @@ public class PokerAs {
 	public static void main(String args[]) {
 		/** Déclaration des joueurs et saisie des noms */
 		
-		Ecran.afficherln("¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ \nPremier joueur  ");
+		Ecran.afficher("   ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ \nPremier joueur : ");
 		Joueur joueur1 = creerJoueur() ;
-		Ecran.afficherln("Deuxième joueur ");
+		Ecran.afficher("Deuxième joueur : ");
 		Joueur joueur2 = creerJoueur() ;
-		Ecran.afficherln("¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤");
+		Ecran.afficherln("   ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ \n \n");
 		
 		/** Déclaration des données */
 		int tourJoueur ;
 		int vainqueurTour ;
 		
-		
+		/** Affichage des règles du Poker d'As */
+		Ecran.afficherln(" **** Bienvenue dans le Poker d'As ****");
+		Ecran.afficherln("Le but est d'effectuer, par lancer aléatoire de dé, la plus grande combinaison parmi(ordre croissant) : \n - Paire \n - Double paire \n - Brelan \n - Carré \n - Petite suite (4 dés qui se suivent) \n - Grande suite (5 dés)\n - Poker");
+		Ecran.afficher("Chacun votre tour, vous aurez le droit de relancer deux fois les dés de votre choix parmi vos cinq dés afin de faire le plus forte combinaison possible. ");
+		Ecran.afficherln("Celui qui fait la plus forte combinaison remporte le coup ! ");
+		Ecran.afficherln(" **** Que le meilleur gagne ! **** \n");
+
 		/** Partie */
 			/**Tirage au sort du premier joueur */
-		tourJoueur = tirageAuSort() ;
-		
+		tourJoueur = TirageAuSort() ;
 		
 		do{
 			/** Coup */

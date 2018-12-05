@@ -1,6 +1,7 @@
 public class AA_PokerAsV1 {
 	/**
-	Le jeu du poker d'as pour deux personnes 
+	* Le jeu du poker d'as (Poker dice) pour deux joueurs.
+	* Créateurs : Lucas Cosson & Nathanaël Houn
 	*/
 	
 	/** Déclaration du nombre de faces des dés utilisés */
@@ -26,7 +27,10 @@ public class AA_PokerAsV1 {
 		
 	}
 	
-	/** Afficher le type Relance */
+	/** 
+	* Afficher le type Relance 
+	* @param Type Relance que l'on veut afficher
+	*/
 	public static void afficherRelance(Relance relance){
 		Ecran.afficher('(',relance.estValide,' ',relance.de1,' ',relance.de2,' ',relance.de3,' ',relance.de4,' ',relance.de5,')');
 	}

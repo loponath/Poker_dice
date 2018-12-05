@@ -284,9 +284,9 @@ public class PokerAs {
 		}
 	
 	/** 
-	*Donne le nombre de points dans un gobelet 
+	*Donne le nombre de points dans un gobelet en modifiant directement dans le gobelet
 	*@param gob  Gobelet que l'on teste
-	*@return nombre de points lié à la combinaison la plus forte présente dans le gobelet
+	
 	*/
 	public static void points(Gobelet gob){
 		int points = 0;

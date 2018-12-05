@@ -1,7 +1,7 @@
 public class PokerAs {
 	/**
 	* Le jeu du poker d'as (Poker dice) pour deux joueurs.
-	* <br>Créateurs : Lucas Cosson & Nathanaël Houn
+	* <br>Créateurs  Lucas Cosson & Nathanaël Houn
 	*/
 	
 	/** Déclaration du nombre de faces des dés utilisés */
@@ -16,18 +16,19 @@ public class PokerAs {
 		
 	}
 	
-	/** Classe Gobelet qui contient 6 dés à valeurs entières */
+	/** Classe Gobelet qui contient 6 dés à valeurs entières et le nombre de points correspondant à la plus forte combinaison */
 	public static class Gobelet {
 		int de1 ;
 		int de2 ;
 		int de3 ;
 		int de4 ;
 		int de5 ;
+		int points = 0 ;
 	}
 	
 	/** 
 	*Lancer aléatoire d'un gobelet de 5 dés 
-	*@return gob : gobelet contenant 5 dés à valeurs entières aléatoires entre 1 et le nombre de FACES inclus
+	*@return Le gobelet contenant 5 dés à valeurs entières aléatoires entre 1 et le nombre de FACES inclus
 	*/
 	public static Gobelet lancerGob(){
 		Gobelet gob=new Gobelet();
@@ -41,29 +42,27 @@ public class PokerAs {
 	
 	/** 
 	*Afficher le contenu d'un gobelet 
-	* @param gob : Gobelet que l'on veut afficher
+	* @param gob  Gobelet que l'on veut afficher
 	*/
 	public static void afficherGob(Gobelet gob){
 		Ecran.afficher('(',gob.de1,' ',gob.de2,' ',gob.de3,' ',gob.de4,' ',gob.de5,')');
 	}
 	
-	/** Type agrégé Joueur qui contient le nom du joueur et le nombre de coups remportés par le joueur, ainsi que la donnée s'il veut continuer la partie ou non */
+	/** Type agrégé Joueur qui contient le nom du joueur et le nombre de coups remportés par le joueur */
 	public static class Joueur {
 		/** Nom du joueur */
 		String nom ;
 		/* Nombre de coups remportés */
 		int gagnes ;
-		/* Veut-il continuer la partie ? */
-		boolean continuer = true ;
 	}
 	
 	/** 
 	*Fonction pour entrer le nom du joueur, et définir son nombre de coups remportés à 0. 
-	*@return joueur : Type agrégé joueur avec son nom entré et 0 victoires
+	*@return Le joueur avec son nom entré et 0 victoires
 	*/
 	public static Joueur creerJoueur() {
 		Joueur joueur = new Joueur();
-		Ecran.afficher("Entrez le nom du joueur : ");
+		Ecran.afficher("Entrez le nom du joueur  ");
 		joueur.nom = Clavier.saisirString();
 		joueur.gagnes = 0 ;
 		return(joueur);
@@ -71,7 +70,7 @@ public class PokerAs {
 	
 	/** 
 	*Fonction pour afficher le nom du joueur et son nombre de coups remportés 
-	*@param j : Joueur dont on veut afficher les informations.
+	*@param j  Joueur dont on veut afficher les informations.
 	*/
 	public static void afficherJoueur(Joueur j){
 		Ecran.afficher(j.nom,", ",j.gagnes," victoire");
@@ -96,7 +95,7 @@ public class PokerAs {
 	
 	/** 
 	* Afficher le type Relance 
-	* @param relance : type Relance que l'on veut afficher
+	* @param relance  type Relance que l'on veut afficher
 	*/
 	public static void afficherRelance(Relance relance){
 		Ecran.afficher('(',relance.estValide,' ',relance.de1,' ',relance.de2,' ',relance.de3,' ',relance.de4,' ',relance.de5,')');
@@ -105,8 +104,8 @@ public class PokerAs {
 	
 	/** 
 	*Teste si le gobelet contient une valeur 
-	*@param gob : Gobelet que l'on veut tester
-	*@param i : entier dont on étudie la présence ou l'absence
+	*@param gob  Gobelet que l'on veut tester
+	*@param i  entier dont on étudie la présence ou l'absence
 	*@return true si gob contient l'entier, false sinon
 	*/
 	public static boolean GobeletAValeur(Gobelet gob, int i){
@@ -115,9 +114,9 @@ public class PokerAs {
 	
 	/**
 	*Fonction qui retourne le nombre de dé identique à la valeur 
-	*@param gob : Gobelet que l'on veut tester
-	*@param i : entier dont on étudie le nombre de présence dans le gobelet
-	*@return nbDe : nombre de dés contenus dans le gobelet qui ont la valeur i
+	*@param gob  Gobelet que l'on veut tester
+	*@param i  entier dont on étudie le nombre de présence dans le gobelet
+	*@return Le nombre de dés contenus dans le gobelet qui ont la valeur i
 	*/
 	public static int compteurDeIdentique(Gobelet gob, int i){
 		int nbDe = 0 ;
@@ -141,8 +140,8 @@ public class PokerAs {
 	
 	/**
 	*Teste si le gobelet contient un full, si oui, renvoie le nombre de points associé 
-	*@param gob : Gobelet que l'on teste
-	*@return points : 4 s'il y a un full, 0 sinon
+	*@param gob  Gobelet que l'on teste
+	*@return 4 s'il y a un full, 0 sinon
 	*/
 	public static int pointsFull(Gobelet gob){
 		
@@ -170,8 +169,8 @@ public class PokerAs {
 	
 	/** 
 	*Teste si le gobelet contient une double paire, si oui, renvoie le nombre de points associé 
-	*@param gob : Gobelet que l'on teste
-	*@return points : 2 s'il y a une double paire, 0 sinon
+	*@param gob  Gobelet que l'on teste
+	*@return 2 s'il y a une double paire, 0 sinon
 	*/
 	public static int pointsDoublePaire(Gobelet gob){
 		
@@ -200,8 +199,8 @@ public class PokerAs {
 	
 	/** 
 	*Teste si le gobelet contient une petite suite, si oui, renvoie le nombre de points associé 
-	*@param gob : Gobelet que l'on teste
-	*@return points : 7 s'il y a une petite suite, 0 sinon
+	*@param gob  Gobelet que l'on teste
+	*@return 7 s'il y a une petite suite, 0 sinon
 	*/
 	public static int pointsPetiteSuite(Gobelet gob) {
 		boolean a3et4 = true ;
@@ -226,8 +225,8 @@ public class PokerAs {
 
 	/** 
 	*Teste si le gobelet contient une grande suite, si oui, renvoie le nombre de points associé 
-	*@param gob : Gobelet que l'on teste
-	*@return points : 8 s'il y a une grande suite, 0 sinon
+	*@param gob  Gobelet que l'on teste
+	*@return 8 s'il y a une grande suite, 0 sinon
 	*/
 	public static int pointsGrandeSuite(Gobelet gob) {
 		boolean aDe2a5 = true ;
@@ -249,8 +248,8 @@ public class PokerAs {
 	
 	/** 
 	*Teste si le gobelet contient une paire, un brelan, un carré ou un poker, si oui, renvoie le nombre de points associé 
-	*@param gob : Gobelet que l'on teste
-	*@return points : 1 s'il y a une paire, 3 s'il y a un brelan, 4 s'il y a un carré, 8 s'il y a un poker, 0 sinon
+	*@param gob  Gobelet que l'on teste
+	*@return 1 s'il y a une paire, 3 s'il y a un brelan, 4 s'il y a un carré, 8 s'il y a un poker, 0 sinon
 	*/
 	public static int pointsPaireBrelanCarrePoker(Gobelet gob){
 		
@@ -261,7 +260,7 @@ public class PokerAs {
 				compteurDeIdentique = compteurDeIdentique(gob,i);
 				
 				switch(compteurDeIdentique){
-					case 2:
+					case 2 :
 						resultatProvisoire = 1;
 						break;
 					case 3:
@@ -286,10 +285,10 @@ public class PokerAs {
 	
 	/** 
 	*Donne le nombre de points dans un gobelet 
-	*@param gob : Gobelet que l'on teste
-	*@return points : nombre de points lié à la combinaison la plus forte présente dans le gobelet
+	*@param gob  Gobelet que l'on teste
+	*@return nombre de points lié à la combinaison la plus forte présente dans le gobelet
 	*/
-	public static int points(Gobelet gob){
+	public static void points(Gobelet gob){
 		int points = 0;
 		points = pointsFull(gob);
 		if(points==0){
@@ -304,19 +303,19 @@ public class PokerAs {
 				}
 			}
 		}
-		return(points);
+		gob.points = points ;
 	}
 
 	/**
 	*Afficher un gobelet et la combinaison la plus forte qu'il contient au format "nom_du_joueur (0 1 2 3 4) - combinaison_la_plus_forte"
-	*@param j : Type Joueur du joueur qui a obtenu ce gobelet
-	*@param gob : Gobelet que l'on affiche et dont on afficher la combinaison.
+	*@param j  Type Joueur du joueur qui a obtenu ce gobelet
+	*@param gob Le gobelet que l'on affiche et dont on afficher la combinaison.
 	*/
 	public static void affichageCombinaison(Joueur j, Gobelet gob){
 		Ecran.afficher(j.nom," ");
 		afficherGob(gob);
-		int point = points(gob);
-		switch(point){
+		gob.points = points(gob);
+		switch(gob.point){
 			case 1 :
 				Ecran.afficher(" - Paire");
 				break;
@@ -353,8 +352,8 @@ public class PokerAs {
 
 	/** Fonction affichant le score des deux joueurs puis le gagnant ou l'égalité. 
 	
-	@param j1 : Type agrégé du joueur 1
-	@param j2 : Type agrégé du joueur 2
+	@param j1  Type agrégé du joueur 1
+	@param j2  Type agrégé du joueur 2
 	
 	*/
 	public static void afficherScore(Joueur j1, Joueur j2){
@@ -386,9 +385,9 @@ public class PokerAs {
 	 
 	/** Fonction coup qui joue un coup avec les relances 
 	
-	@param tourJoueur : Le tour du joueur en cour 
-	@param j1 : Type agrégé du joueur 1
-	@param j2 : Type agrégé du joueur 2
+	@param tourJoueur  Le tour du joueur en cour 
+	@param j1  Type agrégé du joueur 1
+	@param j2  Type agrégé du joueur 2
 	
 	*/
 	public static void coup(int tourJoueur, Joueur j1, Joueur j2) {
@@ -457,9 +456,9 @@ public class PokerAs {
 		
 		
 		//Comparaison de victoire
-		if(points(gobJ1)<points(gobJ2)){
+		if(gobJ1.points<gobJ2.points){
 			gagnant = 2;
-		} else if(points(gobJ2)<points(gobJ1)){
+		} else if(gobJ1.points<gobJ2.points){
 			gagnant = 1;
 		}
 		
@@ -483,7 +482,7 @@ public class PokerAs {
 	
 	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut retourner 
 	
-	@param valeur : Valeur des dés entrée par l'utilisateur à vérifier
+	@param valeur  Valeur des dés entrée par l'utilisateur à vérifier
 	@return Le type structuré permettant de savoir si la relance est possible ou non
 	
 	*/
@@ -572,7 +571,7 @@ public class PokerAs {
 	
 	/** Fonction pour relancer un gobelet 
 	
-	@param gob : Selection du gobelet pour la relance
+	@param gob  Selection du gobelet pour la relance
 	@return Le gobelet avec les modifications sur les différents dés
 	
 	*/
@@ -615,30 +614,30 @@ public class PokerAs {
 	
 	/**Continuer 
 	
-	@param j : Selection du joueur pour la demande de poursuite du programme
-	@return Le type structuré joueur avec la valeur de poursuite du programme modifié
+	@return True si la partie doit être continuée, false sinon
 	
 	*/
-	public static Joueur continuer(Joueur j){
-		Ecran.afficher(j.nom,", voulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer) : ");
+	public static boolean continuer(){
+		boolean continuer = true ;
+		Ecran.afficher("Voulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer)  ");
 		char touche=Clavier.saisirChar();
 		if(touche=='n' || touche=='N'){
-			j.continuer=false;
+			continuer=false;
 		}
-		return(j);
+		return(continuer);
 		
 	}
 	/** 
 	
 	Action principale
-	
+
 	*/
 	public static void main(String args[]) {
 		/** Déclaration des joueurs et saisie des noms */
 		
-		Ecran.afficherln("¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ \nPremier joueur : ");
+		Ecran.afficherln("¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ \nPremier joueur  ");
 		Joueur joueur1 = creerJoueur() ;
-		Ecran.afficherln("Deuxième joueur :");
+		Ecran.afficherln("Deuxième joueur ");
 		Joueur joueur2 = creerJoueur() ;
 		Ecran.afficherln("¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤");
 		
@@ -651,7 +650,7 @@ public class PokerAs {
 			/**Tirage au sort du premier joueur */
 		tourJoueur = tirageAuSort() ;
 		
-		boolean continuer = true;
+		
 		do{
 			/** Coup */
 
@@ -659,19 +658,12 @@ public class PokerAs {
 			
 			//Changement de joueur qui commencera
 			if(tourJoueur==1){
-				joueur2 = continuer(joueur2);
-				joueur1 = continuer(joueur1);
 				tourJoueur=2;
 			} else {
 				tourJoueur=1;
-				joueur1 = continuer(joueur1);
-				joueur2 = continuer(joueur2);
-			}
+			}	
 			
-			
-		
-			
-		}while(joueur2.continuer || joueur1.continuer) ;
+		}while(continuer()) ;
 		
 		afficherScore(joueur1,joueur2);
 	}

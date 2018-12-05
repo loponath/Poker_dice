@@ -606,7 +606,6 @@ public class AA_PokerAsV1 {
 	
 	*/
 	public static void main(String args[]) {
-	public static void main(String args[]) {
 		/** D嶰laration des joueurs et saisie des noms */
 		
 		Ecran.afficherln("中中中中中中中中中中中中中中 \nPremier joueur : ");

@@ -651,11 +651,11 @@ public class PokerAs {
 		int vainqueurTour ;
 		
 		/** Affichage des règles du Poker d'As */
-		Ecran.afficherln(" **** Bienvenue dans le Poker d'As ****");
+		Ecran.afficherln(" ***** Bienvenue dans le Poker d'As *****");
 		Ecran.afficherln("Le but est d'effectuer, par lancer aléatoire de dé, la plus grande combinaison parmi(ordre croissant) : \n - Paire \n - Double paire \n - Brelan \n - Carré \n - Petite suite (4 dés qui se suivent) \n - Grande suite (5 dés)\n - Poker");
 		Ecran.afficher("Chacun votre tour, vous aurez le droit de relancer deux fois les dés de votre choix parmi vos cinq dés afin de faire le plus forte combinaison possible. ");
 		Ecran.afficherln("Celui qui fait la plus forte combinaison remporte le coup ! ");
-		Ecran.afficherln(" **** Que le meilleur gagne ! **** \n");
+		Ecran.afficherln(" ***** Que le meilleur gagne ! ***** \n");
 
 		/** Partie */
 			/**Tirage au sort du premier joueur */

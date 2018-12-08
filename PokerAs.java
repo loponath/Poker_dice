@@ -646,7 +646,7 @@ public class PokerAs {
 	*/
 	public static boolean continuer(){
 		boolean continuer = true ;
-		Ecran.afficher("Voulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer)  ");
+		Ecran.afficher("\nVoulez-vous continuer la partie ? (Ecrivez 'n' pour arrêter, n'importe quoi pour continuer)  ");
 		char touche=Clavier.saisirChar();
 		if(touche=='n' || touche=='N'){
 			continuer=false;

@@ -616,7 +616,7 @@ public class PokerAs {
 		return(gob);
 	}
 
-	/**Continuer
+	/** Demande si les joueurs veulent continuer la partie ou non
 
 	@return True si la partie doit être continuée, false sinon
 
@@ -666,7 +666,7 @@ public class PokerAs {
 
 			coup(tourJoueur,joueur1,joueur2);
 
-			//Changement de joueur qui commencera
+			//Changement de joueur qui commencera le coup suivant
 			if(tourJoueur==1){
 				tourJoueur=2;
 			} else {

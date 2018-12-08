@@ -1,8 +1,10 @@
+/**
+* Le jeu du poker d'as (Poker dice) pour deux joueurs
+* <br>Créateurs : Lucas Cosson & Nathanaël Houn
+* <br>Groupe C1 / CMI
+*/
 public class PokerAs {
-	/**
-	* Le jeu du poker d'as (Poker dice) pour deux joueurs.
-	* <br>Créateurs  Lucas Cosson & Nathanaël Houn
-	*/
+
 
 	/** Déclaration du nombre de faces des dés utilisés */
 	public static final int FACES = 6 ;
@@ -484,7 +486,7 @@ public class PokerAs {
 
 
 
-	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut retourner
+	/** Vérifie que le nombre de la relance est valide, si oui, donne quels dés il faut relancer
 
 	@param valeur  Valeur des dés entrée par l'utilisateur à vérifier
 	@return Le type structuré permettant de savoir si la relance est possible ou non

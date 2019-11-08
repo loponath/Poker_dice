@@ -1,7 +1,9 @@
-#Poker_dice
-Licence Informatique : Poker d'As, projet de fin de premier semestre
+# Poker d'as
 
-Il y a seulement une branche principale dans laquelle mon binôme et moi même mettons nos versions de plus en plus avancées du programme.
-There is only one master branch in which, my friend and I put our latest versions of the program.
+Mini-projet de fin de premier semestre. 
 
-:)
+Le jeu du Poker d’as (poker dice) est un jeu qui se joue avec des cartes ou avec des dés. 
+Il s'agit ici d'une version du jeu avec des dés à 6 faces. 
+Chaque joueur utilise un gobelet de cinq dés. 
+Pour un joueur, le but est de lancer les cinq dés, avec d’éventuelles relances partielles des dés, afin d’obtenir la combinaison la plus forte possible. 
+Celui qui a la plus forte combinaison gagne la manche.
